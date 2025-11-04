@@ -1,7 +1,15 @@
+import yaml
 from agents.router import AgentRouter
 
+def load_adk_config(path="config/adk_config.yaml"):
+    with open(path, "r") as f:
+        cfg = yaml.safe_load(f)
+    print("✅ Loaded ADK manifest for:", cfg["project"])
+    return cfg
+
 if __name__ == "__main__":
-    print("🧩 Multi-Agent Finance System Ready!")
+    config = load_adk_config()
+    print("🧩 Multi-Agent Finance System (ADK Compatible) Ready!")
     router = AgentRouter()
 
     while True:

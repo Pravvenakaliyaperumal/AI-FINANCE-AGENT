@@ -1,0 +1,52 @@
+# config/adk_config.yaml
+
+version: 1
+project: "AI Finance Agent"
+description: "Agentic AI system for e-commerce financial analysis."
+
+# Define individual agents
+agents:
+  - id: finance_agent
+    name: "Finance Analysis Agent"
+    description: "Analyzes user spending, refunds, and monthly summaries."
+    entry_point: "agents.finance_agent:FinanceAgent"
+    capabilities:
+      - "analyze_spending"
+      - "refund_summary"
+    tools:
+      - type: "function"
+        name: "analyze_spending"
+        description: "Analyze monthly expenses and refund amounts."
+        input_schema:
+          type: object
+          properties:
+            month:
+              type: string
+              description: "Month in YYYY-MM format"
+          required: ["month"]
+
+  - id: order_agent
+    name: "Order Lookup Agent"
+    description: "Fetches recent purchases and order details."
+    entry_point: "agents.order_agent:OrderAgent"
+    capabilities:
+      - "get_recent_orders"
+    tools:
+      - type: "function"
+        name: "get_recent_orders"
+        description: "Retrieve last few purchase records."
+        input_schema:
+          type: object
+          properties:
+            limit:
+              type: integer
+              description: "Number of recent orders to retrieve"
+          required: ["limit"]
+
+# Define the router
+router:
+  id: main_router
+  name: "Central Router"
+  entry_point: "agents.router:AgentRouter"
+  description: "Routes user queries to the correct agent based on intent."
+  routing_strategy: "intent"
